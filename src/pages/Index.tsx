@@ -40,7 +40,7 @@ const Index = () => {
       case "mode-select":
         return <ModeSelect onStart={() => game.startStudy()} />;
       case "glossary":
-        return <Glossary condition={game.condition} onContinue={() => game.dealCards()} />;
+        return <Glossary onContinue={() => game.dealCards()} />;
       case "deal":
         return <Deal playerHand={game.playerHand} onContinue={() => game.advancePhase("meet-partners")} />;
       case "meet-partners":
@@ -66,7 +66,6 @@ const Index = () => {
       case "sort":
         return (
           <Sort
-            condition={game.condition}
             playerHand={game.playerHand}
             topN={game.topN}
             finalTop={game.finalTop}
