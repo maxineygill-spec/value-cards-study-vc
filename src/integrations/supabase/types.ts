@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      researcher_allowlist: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
       sessions: {
         Row: {
           condition: string
@@ -88,6 +106,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_researcher_role: { Args: never; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
