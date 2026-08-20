@@ -68,7 +68,6 @@ const AllSessionsTab = () => {
 
   const total = rows.length;
   const valuesN = rows.filter(r => r.condition === 'values').length;
-  const issuesN = rows.filter(r => r.condition === 'issues').length;
   const pct = (n: number) => total ? `${Math.round((n/total)*100)}%` : '0%';
   const avgSucc = total
     ? (rows.reduce((s, r) => s + (r.successful_trades ?? 0), 0) / total).toFixed(1)
@@ -104,7 +103,7 @@ const AllSessionsTab = () => {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="bg-slate-50 rounded-lg p-3">
           <div className="text-[10px] uppercase text-slate-500">Total</div>
           <div className="font-mono font-semibold">{total}</div>
@@ -112,10 +111,6 @@ const AllSessionsTab = () => {
         <div className="bg-slate-50 rounded-lg p-3">
           <div className="text-[10px] uppercase text-slate-500">Values</div>
           <div className="font-mono font-semibold">{valuesN} <span className="text-slate-400">({pct(valuesN)})</span></div>
-        </div>
-        <div className="bg-slate-50 rounded-lg p-3">
-          <div className="text-[10px] uppercase text-slate-500">Issues</div>
-          <div className="font-mono font-semibold">{issuesN} <span className="text-slate-400">({pct(issuesN)})</span></div>
         </div>
         <div className="bg-slate-50 rounded-lg p-3">
           <div className="text-[10px] uppercase text-slate-500">Avg trades/session</div>
@@ -158,11 +153,7 @@ const AllSessionsTab = () => {
               <tr key={r.id} className="border-t border-slate-200">
                 <td className="px-3 py-1.5 font-mono whitespace-nowrap">{fmtDate(r.created_at)}</td>
                 <td className="px-3 py-1.5">
-                  <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                    r.condition === 'values'
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-amber-100 text-amber-800'
-                  }`}>{r.condition}</span>
+                  <span className="inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold bg-blue-100 text-blue-800">{r.condition}</span>
                 </td>
                 <td className="px-3 py-1.5">{(r.top_selection || []).join(', ') || '—'}</td>
                 <td className="px-3 py-1.5 font-mono">{r.successful_trades ?? 0}/{r.total_offers ?? 0}</td>

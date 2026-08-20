@@ -1,7 +1,6 @@
 import { useState, useCallback, useMemo, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Value, ALL_VALUES } from '../data/values';
-import { ALL_ISSUES } from '../data/issues';
 import {
   PartnerState,
   Ranking,
@@ -27,7 +26,7 @@ export type GamePhase =
   | "sort"
   | "summary";
 
-export type Condition = "values" | "issues";
+export type Condition = "values";
 
 export interface PartnerDisplay {
   id: string;
@@ -61,7 +60,7 @@ const PHASE_ORDER: GamePhase[] = [
 
 export const useGameState = (config: TradeConfig = DEFAULT_TRADE_CONFIG) => {
   const [phase, setPhase] = useState<GamePhase>("mode-select");
-  const [condition, setCondition] = useState<Condition>("values");
+  const condition: Condition = "values";
   const [phaseStartTime, setPhaseStartTime] = useState<number>(Date.now());
   const [phaseTiming, setPhaseTiming] = useState<Record<string, number>>({});
 
@@ -93,16 +92,11 @@ export const useGameState = (config: TradeConfig = DEFAULT_TRADE_CONFIG) => {
   const partnerProfiles = PARTNER_DISPLAY;
 
   const startStudy = useCallback(() => {
-    const assigned: Condition = Math.random() < 0.5 ? "values" : "issues";
-    setCondition(assigned);
     advancePhase("glossary");
   }, [advancePhase]);
 
   const dealCards = useCallback(() => {
-    const pool: Value[] =
-      condition === "issues"
-        ? (ALL_ISSUES as Value[])
-        : ALL_VALUES.slice(0, 18);
+    const pool: Value[] = ALL_VALUES.slice(0, 18);
     const [pHand, hA, hB] = dealThreeHands(pool);
 
     const rankA: Ranking = buildSolvableRanking(pool, pHand, hA);
@@ -113,7 +107,7 @@ export const useGameState = (config: TradeConfig = DEFAULT_TRADE_CONFIG) => {
     setPartners([makePartner("A", hA, rankA), makePartner("B", hB, rankB)]);
     setTrades([]);
     setPhase("deal");
-  }, [condition]);
+  }, []);
 
   const makeOffer = useCallback(
     (partnerId: string, giveName: string, getName: string): OfferOutcome => {
@@ -183,7 +177,7 @@ export const useGameState = (config: TradeConfig = DEFAULT_TRADE_CONFIG) => {
       Object.entries(r).sort((a, b) => a[1] - b[1]).map(([name]) => name);
     const payload = {
       condition,
-      deck_version: condition === "issues" ? "issues-20" : "values-18",
+      deck_version: "values-18",
       dealt_hand: dealtPlayerHand.map(v => v.name),
       final_hand: playerHand.map(v => v.name),
       top_selection: finalTop,
