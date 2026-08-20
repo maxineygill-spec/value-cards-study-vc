@@ -248,8 +248,15 @@ const ResearcherView = ({
       .eq('user_id', userId)
       .eq('role', 'researcher')
       .maybeSingle();
-    setIsResearcher(!!data);
+    if (data) {
+      setIsResearcher(true);
+      return;
+    }
+    // Not yet granted: try claiming via the researcher allowlist
+    const { data: claimed } = await supabase.rpc('claim_researcher_role');
+    setIsResearcher(!!claimed);
   }, []);
+
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_evt, s) => {
