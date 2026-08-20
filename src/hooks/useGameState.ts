@@ -93,16 +93,11 @@ export const useGameState = (config: TradeConfig = DEFAULT_TRADE_CONFIG) => {
   const partnerProfiles = PARTNER_DISPLAY;
 
   const startStudy = useCallback(() => {
-    const assigned: Condition = Math.random() < 0.5 ? "values" : "issues";
-    setCondition(assigned);
     advancePhase("glossary");
   }, [advancePhase]);
 
   const dealCards = useCallback(() => {
-    const pool: Value[] =
-      condition === "issues"
-        ? (ALL_ISSUES as Value[])
-        : ALL_VALUES.slice(0, 18);
+    const pool: Value[] = ALL_VALUES.slice(0, 18);
     const [pHand, hA, hB] = dealThreeHands(pool);
 
     const rankA: Ranking = buildSolvableRanking(pool, pHand, hA);
