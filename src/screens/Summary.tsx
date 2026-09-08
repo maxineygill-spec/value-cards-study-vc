@@ -9,13 +9,13 @@ interface SummaryProps {
   topN: number;
   partnerProfiles: PartnerDisplay[];
   trades: TradeRecord[];
-  onExport: () => void;
-  onPlayAgain: () => void;
+  onExport?: () => void;
+  onPlayAgain?: () => void;
 }
 
 const Summary = ({
   dealtPlayerHand, finalPlayerHand, finalTop, topN,
-  partnerProfiles, trades, onExport, onPlayAgain,
+  partnerProfiles, trades,
 }: SummaryProps) => {
   const successful = trades.filter((t) => t.accepted);
 
@@ -60,24 +60,12 @@ const Summary = ({
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4">
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={onExport}
-            className="flex-1 py-4 bg-primary text-primary-foreground font-sans font-bold rounded-xl"
-          >
-            Download my data
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={onPlayAgain}
-            className="flex-1 py-4 bg-muted text-foreground font-sans font-bold rounded-xl border border-border"
-          >
-            Play again
-          </motion.button>
+        <div className="bg-muted border border-border rounded-2xl p-6 text-center">
+          <p className="text-foreground font-sans">
+            Thank you for playing the game! Please click the "Next page" button to move to the final part of the study.
+          </p>
         </div>
+
       </motion.div>
     </div>
   );
