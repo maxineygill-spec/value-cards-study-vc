@@ -9,13 +9,13 @@ interface SummaryProps {
   topN: number;
   partnerProfiles: PartnerDisplay[];
   trades: TradeRecord[];
-  onExport: () => void;
-  onPlayAgain: () => void;
+  onExport?: () => void;
+  onPlayAgain?: () => void;
 }
 
 const Summary = ({
   dealtPlayerHand, finalPlayerHand, finalTop, topN,
-  partnerProfiles, trades, onExport, onPlayAgain,
+  partnerProfiles, trades,
 }: SummaryProps) => {
   const successful = trades.filter((t) => t.accepted);
 
